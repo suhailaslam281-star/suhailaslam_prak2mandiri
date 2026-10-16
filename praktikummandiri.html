@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Pemesanan Barang</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eeeeee;
+            margin: 0;
+        }
+
+        .browser {
+            width: 700px;
+            margin: 20px auto;
+            border: 2px solid #555;
+            background: white;
+        }
+
+        .browser-header {
+            background: #ccc;
+            padding: 10px;
+            border-bottom: 2px solid #555;
+        }
+
+        .address {
+            display: inline-block;
+            width: 75%;
+            background: white;
+            border: 1px solid #555;
+            padding: 4px;
+        }
+
+        .container {
+            padding: 20px 35px;
+            background: #eee;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            border: 1px solid #555;
+            padding: 7px 0;
+            margin-bottom: 25px;
+            font-size: 12px;
+        }
+
+        nav a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .form-content {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .photo {
+            width: 140px;
+            text-align: center;
+        }
+
+        .photo-box {
+            display: flex;
+            width: 130px;
+            height: 130px;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #777;
+            background-color: white;
+            color: #777;
+            font-size: 11px;
+        }
+
+        .photo-box img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .photo input {
+            width: 140px;
+            font-size: 10px;
+            margin-top: 8px;
+        }
+
+        .fields {
+            width: 360px;
+            font-size: 12px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 105px 1fr;
+            align-items: start;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .row label {
+            text-align: right;
+            padding-top: 5px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 5px;
+            border: 1px solid #777;
+        }
+
+        textarea {
+            height: 75px;
+            resize: vertical;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #888;
+        }
+
+        input:focus::placeholder,
+        textarea:focus::placeholder {
+            color: transparent;
+        }
+
+        .checks {
+            margin-left: 113px;
+            margin-bottom: 10px;
+            color: green;
+        }
+
+        .checks label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .note {
+            margin-left: 113px;
+            font-size: 10px;
+            margin-bottom: 10px;
+        }
+
+        .submit {
+            display: block;
+            margin: 20px auto 0;
+            padding: 7px 15px;
+            background: green;
+            color: white;
+            border: 2px solid black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #hasil {
+            display: none;
+            margin-top: 20px;
+            padding: 12px;
+            background: white;
+            border: 1px solid #777;
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 740px) {
+            .browser {
+                width: 95%;
+            }
+
+            .container {
+                padding: 12px;
+            }
+
+            .form-content {
+                flex-wrap: wrap;
+            }
+
+            .fields {
+                width: 100%;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="browser">
+    <div class="browser-header">
+        <strong>← → × ⌂</strong>
+        <span class="address">http://</span>
+    </div>
+
+    <div class="container">
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Generate Link</a>
+            <a href="#">Transaction History</a>
+            <a href="#">Policy</a>
+            <a href="#">Logout</a>
+        </nav>
+
+        <form id="formPemesanan">
+            <div class="form-content">
+
+                <div class="photo">
+                    <div class="photo-box" id="preview">Pratinjau foto</div>
+                    <input type="file" id="foto" accept="image/*">
+                </div>
+
+                <div class="fields">
+
+                    <div class="row">
+                        <label for="judul">Title Here :</label>
+                        <input type="text" id="judul"
+                            placeholder="Contoh: Laptop ASUS ROG" required>
+                    </div>
+
+                    <div class="row">
+                        <label for="deskripsi">Description :</label>
+                        <textarea id="deskripsi"
+                            placeholder="Model: ASUS ROG&#10;Kondisi: Baru&#10;Harga: Rp 2.000 atau 800$"
+                            required></textarea>
+                    </div>
+
+                    <div class="row">
+                        <label for="rekening">Account Number :</label>
+                        <input type="text" id="rekening"
+                            placeholder="Masukkan nomor rekening" required>
+                    </div>
+
+                    <div class="row">
+                        <label for="bank">Bank :</label>
+                        <select id="bank" required>
+                            <option value="" selected disabled>Pilih bank</option>
+                            <option>HSBC</option>
+                            <option>BCA</option>
+                            <option>BRI</option>
+                            <option>BNI</option>
+                            <option>Mandiri</option>
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <label for="pemilik">Account Holder :</label>
+                        <input type="text" id="pemilik"
+                            placeholder="Masukkan nama pemilik rekening" required>
+                    </div>
+
+                    <div class="row">
+                        <label for="transaksi">Transaction :</label>
+                        <input type="number" id="transaksi"
+                            min="1" max="3" placeholder="Masukkan 1-3" required>
+                    </div>
+
+                    <div class="note">
+                        * If the transaction is for 3 persons,
+                        choose 3 from the drop-down list.
+                    </div>
+
+                    <div class="checks">
+                        <label>
+                            <input type="checkbox" id="sms">
+                            Send to Mobile Phone
+                        </label>
+                        <label>
+                            <input type="checkbox" id="emailCheck">
+                            Send to Email
+                        </label>
+                    </div>
+
+                    <div class="row">
+                        <label for="telepon">Send to Mobile Phone :</label>
+                        <input type="text" id="telepon"
+                            placeholder="Contoh: 081234567890">
+                    </div>
+
+                    <div class="row">
+                        <label for="email">Send to Email :</label>
+                        <input type="email" id="email"
+                            placeholder="Contoh: nama@email.com">
+                    </div>
+
+                </div>
+            </div>
+
+            <button class="submit" type="submit">Generate New Link</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    const formPemesanan = document.getElementById("formPemesanan");
+    const sms = document.getElementById("sms");
+    const emailCheck = document.getElementById("emailCheck");
+    const telepon = document.getElementById("telepon");
+    const email = document.getElementById("email");
+    const foto = document.getElementById("foto");
+    const preview = document.getElementById("preview");
+    let fotoPreviewUrl = null;
+
+    function clearPhotoPreview() {
+        if (fotoPreviewUrl) {
+            URL.revokeObjectURL(fotoPreviewUrl);
+            fotoPreviewUrl = null;
+        }
+        preview.replaceChildren();
+    }
+
+    foto.addEventListener("change", function() {
+        const file = foto.files[0];
+
+        if (!file) {
+            clearPhotoPreview();
+            return;
+        }
+
+        if (!file.type.startsWith("image/")) {
+            foto.value = "";
+            clearPhotoPreview();
+            alert("Pilih file gambar yang valid.");
+            return;
+        }
+
+        clearPhotoPreview();
+        fotoPreviewUrl = URL.createObjectURL(file);
+        const image = document.createElement("img");
+        image.src = fotoPreviewUrl;
+        image.alt = "Pratinjau foto barang";
+        preview.replaceChildren(image);
+    });
+
+    function updateNotificationRequirements() {
+        telepon.required = sms.checked;
+        email.required = emailCheck.checked;
+    }
+
+    sms.addEventListener("change", updateNotificationRequirements);
+    emailCheck.addEventListener("change", updateNotificationRequirements);
+    updateNotificationRequirements();
+
+    function compressImage(file) {
+        return new Promise(function(resolve, reject) {
+            const image = new Image();
+            const imageUrl = URL.createObjectURL(file);
+
+            image.onload = function() {
+                URL.revokeObjectURL(imageUrl);
+
+                try {
+                    const maxDimension = 1200;
+                    const scale = Math.min(
+                        1,
+                        maxDimension / Math.max(image.naturalWidth, image.naturalHeight)
+                    );
+                    const canvas = document.createElement("canvas");
+                    canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+                    canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+                    const context = canvas.getContext("2d");
+                    if (!context) {
+                        reject(new Error("Foto tidak dapat diproses."));
+                        return;
+                    }
+                    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+                    canvas.toBlob(function(blob) {
+                        if (!blob) {
+                            reject(new Error("Foto tidak dapat diproses."));
+                            return;
+                        }
+
+                        const reader = new FileReader();
+                        reader.onload = function() {
+                            resolve(reader.result);
+                        };
+                        reader.onerror = function() {
+                            reject(new Error("Foto tidak dapat dibaca."));
+                        };
+                        reader.readAsDataURL(blob);
+                    }, "image/jpeg", 0.82);
+                } catch (error) {
+                    reject(error);
+                }
+            };
+
+            image.onerror = function() {
+                URL.revokeObjectURL(imageUrl);
+                reject(new Error("Foto tidak dapat dibuka."));
+            };
+
+            image.src = imageUrl;
+        });
+    }
+
+    function getPriceFromDescription(description) {
+        const pricePattern = /(?:Rp\.?\s*[\d.,]+|(?:US\$|\$)\s*[\d.,]+|[\d.,]+\s*(?:US\$|\$))/i;
+        const match = description.match(pricePattern);
+
+        if (!match) {
+            return null;
+        }
+
+        const priceText = match[0].trim();
+        const isRupiah = /Rp/i.test(priceText);
+        let amountText = priceText.replace(/Rp\.?|US\$|\$/gi, "").replace(/\s/g, "");
+
+        if (isRupiah) {
+            amountText = amountText.replace(/[.,]/g, "");
+        } else {
+            const lastComma = amountText.lastIndexOf(",");
+            const lastDot = amountText.lastIndexOf(".");
+            const decimalSeparator = Math.max(lastComma, lastDot);
+            const decimalDigits = amountText.length - decimalSeparator - 1;
+
+            if (lastComma !== -1 && lastDot !== -1) {
+                const groupingSeparator = decimalSeparator === lastComma ? "." : ",";
+                amountText = amountText.replace(new RegExp("\\" + groupingSeparator, "g"), "");
+                amountText = amountText.replace(decimalSeparator === lastComma ? "," : ".", ".");
+            } else if (decimalSeparator !== -1 && decimalDigits > 0 && decimalDigits < 3) {
+                amountText = amountText.replace(decimalSeparator === lastComma ? "," : ".", ".");
+            } else {
+                amountText = amountText.replace(/[.,]/g, "");
+            }
+        }
+
+        const amount = Number(amountText);
+        if (!Number.isFinite(amount) || amount <= 0) {
+            return null;
+        }
+
+        return {
+            amount: amount,
+            text: priceText,
+            isRupiah: isRupiah,
+            symbolAtStart: /^(?:Rp|US\$|\$)/i.test(priceText),
+            descriptionWithoutPrice: removePriceFromDescription(description, match)
+        };
+    }
+
+    function removePriceFromDescription(description, match) {
+        const lineStart = description.lastIndexOf("\n", match.index - 1) + 1;
+        const matchEnd = match.index + match[0].length;
+        const lineEndIndex = description.indexOf("\n", matchEnd);
+        const lineEnd = lineEndIndex === -1 ? description.length : lineEndIndex;
+        const remainingLine = (
+            description.slice(lineStart, match.index) +
+            description.slice(matchEnd, lineEnd)
+        );
+
+        if (/^\s*(?:price|harga)\s*:?\s*$/i.test(remainingLine)) {
+            const afterLine = lineEndIndex === -1 ? lineEnd : lineEndIndex + 1;
+            return (description.slice(0, lineStart) + description.slice(afterLine)).trim();
+        }
+
+        const beforePrice = description.slice(0, match.index)
+            .replace(/(?:price|harga)\s*:?\s*$/i, "");
+        const afterPrice = description.slice(matchEnd);
+        return (beforePrice + afterPrice)
+            .replace(/[ \t]{2,}/g, " ")
+            .replace(/[ \t]*\|[ \t]*\|[ \t]*/g, " | ")
+            .replace(/[ \t]*,[ \t]*$/, "")
+            .trim();
+    }
+
+    function formatTotal(price, quantity) {
+        if (quantity === 1) {
+            return price.text;
+        }
+
+        const total = price.amount * quantity;
+        const formatter = new Intl.NumberFormat(price.isRupiah ? "id-ID" : "en-US", {
+            maximumFractionDigits: price.isRupiah ? 0 : 2
+        });
+        const formattedAmount = formatter.format(total);
+        const symbol = price.isRupiah ? "Rp" : "$";
+
+        if (price.isRupiah || price.symbolAtStart) {
+            return symbol + (price.isRupiah ? " " : "") + formattedAmount;
+        }
+
+        return formattedAmount + symbol;
+    }
+
+    formPemesanan.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const jumlah = Number(document.getElementById("transaksi").value);
+        const deskripsi = document.getElementById("deskripsi").value.trim();
+        const harga = getPriceFromDescription(deskripsi);
+        if (!harga) {
+            alert("Tambahkan harga pada deskripsi, misalnya Rp 2.000 atau 800$.");
+            return;
+        }
+
+        try {
+            const data = {
+                judul: document.getElementById("judul").value.trim(),
+                deskripsi: harga.descriptionWithoutPrice,
+                jumlah: jumlah,
+                total: formatTotal(harga, jumlah),
+                bank: document.getElementById("bank").value,
+                pemilik: document.getElementById("pemilik").value.trim(),
+                rekening: document.getElementById("rekening").value.trim(),
+                hp: telepon.value.trim(),
+                email: email.value.trim(),
+                notifikasiHP: sms.checked,
+                notifikasiEmail: emailCheck.checked,
+                foto: foto.files[0] ? await compressImage(foto.files[0]) : ""
+            };
+
+            sessionStorage.setItem("dataPemesanan", JSON.stringify(data));
+            window.location.href = "hasil.html";
+        } catch (error) {
+            alert("Pemesanan tidak dapat disimpan. " + error.message);
+        }
+    });
+</script>
+
+
+</body>
+</html>
